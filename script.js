@@ -6,15 +6,91 @@
 // 	"rgb(255, 0, 255)",
 // 	"rgb(0, 0, 255)" 
 // ]
-	var colors = generateRandomColors(6);
+	var numSquares = 6;
+	var colors = generateRandomColors(numSquares);
 	var squares = document.querySelectorAll(".square");
 	var pickedColor = pickColor();
 	var colorDisplay = document.getElementById("colorDisplay");
 	var messagePanel = document.querySelector("#message");
 	var h1 = document.querySelector("h1");
+	var resetBtn = document.querySelector("#resetBtn");
+	var easyBtn = document.querySelector("#easyBtn");
+	var hardBtn = document.querySelector("#hardBtn");
+
+	easyBtn.addEventListener("click",function(){
+		h1.style.backgroundColor = "steelblue";
+		numSquares = 3;
+		easyBtn.classList.add("selected");
+		hardBtn.classList.remove("selected")
+		colors = generateRandomColors(numSquares);
+		pickedColor = pickColor();
+		colorDisplay.textContent = pickedColor;
+
+		
+		for(var i = 0; i<squares.length; i++){
+		if(colors [i]){
+			squares[i].style.background = colors[i];
+		}
+
+		else{
+			squares[i].style.display = "none";
+		}
+		
+	}
+
+		
+	});
+
+
+		hardBtn.addEventListener("click",function(){
+
+		h1.style.backgroundColor = "steelblue";
+		easyBtn.classList.remove("selected");
+		hardBtn.classList.add("selected")
+		numSquares = 6;
+		colors = generateRandomColors(numSquares);
+		pickedColor = pickColor();
+		colorDisplay.textContent = pickedColor;
+
+		
+		for(var i = 0; i<squares.length; i++){
+		
+			squares[i].style.background = colors[i];
+		
+			squares[i].style.display = "block";
+		
+		
+	}
+	});
+
 
 	colorDisplay.textContent = pickedColor;
 
+	resetBtn.addEventListener("click",function(){
+		//generate new colors
+		 colors = generateRandomColors(numSquares);
+		//pick random color from array
+		pickedColor = pickColor();
+		colorDisplay.textContent = pickedColor;
+
+		//change square colors
+		for(var i =0; i<squares.length; i++){
+		//add initial colors to square
+		messagePanel.textContent = "";
+		squares[i].style.backgroundColor = colors[i];
+		}
+		//reset h1 background
+		h1.style.backgroundColor = "steelblue";
+		//change button text
+		resetBtn.textContent = "New colors ";
+
+	});
+
+
+
+
+	
+//main function
 	for(var i =0; i<squares.length; i++){
 		//add initial colors to square
 
@@ -30,6 +106,7 @@
 				messagePanel.textContent = "Correct";
 				changeColors(clickedColor);
 				h1.style.backgroundColor = clickedColor
+				resetBtn.textContent = "Play again";
 			}
 			else{
 				this.style.backgroundColor = "#232323";
